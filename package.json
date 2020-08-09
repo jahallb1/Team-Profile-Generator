@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "jest": "^26.2.2",
+    "nanoid": "^3.1.12"
+  }
 }
