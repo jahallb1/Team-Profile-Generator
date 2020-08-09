@@ -1,123 +1,147 @@
 const inquirer = require("inquirer");
-// uuid
-const nanoid = require("nanoid").nanoid;
+
 const Employee = require("./lib/Employee");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 
 // command line interface class....aka entry point
-class CliClass {
-  constructor() {
-    this.teamMembers = [];
-  }
 
-  createManager() {
-    inquirer
-      .prompt([
-        {
-          type: "text",
-          name: "name",
-          message: "What is the Manager's name?",
-          validate: (answer) => {
-            if (answer !== "") {
-              return true;
-            }
-            return "Please enter a character!";
-          },
+function createManager() {
+  let teamData = {
+    manager: [],
+    engineer: [],
+    intern: [],
+  };
+  inquirer
+    .prompt([
+      {
+        type: "text",
+        name: "name",
+        message: "What is the Manager's name?",
+        validate: (answer) => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter a character!";
         },
-        {
-          type: "text",
-          name: "email",
-          message: "What is the Manager's email?",
-        },
-      ])
-      .then((data) => {
-        const id = nanoid();
-        this.teamMembers.push({
-          ...data,
-          id,
-        });
-        console.log(this.teamMembers);
-        this.createTeamMember(id);
-        // call, bind, apply
-      });
-  }
+      },
+      {
+        type: "text",
+        name: "officeNumber",
+        message: "What is the Manager's office number?",
+      },
+      {
+        type: "text",
+        name: "email",
+        message: "What is the Manager's email?",
+      },
+      {
+        type: "text",
+        name: "id",
+        message: "What is the Manager's id?",
+      },
+    ])
+    .then(({ name, email, id, officeNumber }) => {
+      const newManager = new Manager(name, id, email, officeNumber);
+      teamData.manager.push(newManager);
+      createTeamMember(teamData);
+    });
+}
 
-  // returns index of team member for array
-  findTeamMemberIndex(id) {
-    return this.teamMembers.findIndex((member) => (member.id = id));
-  }
+function createTeamMember(teamData) {
+  inquirer
+    .prompt({
+      type: "list",
+      name: "otherTypes",
+      message: "What is their role?",
+      choices: ["Engineer", "Intern", "Finished"],
+    })
+    .then((response) => {
+      switch (response.otherTypes) {
+        case "Engineer":
+          createEngineer(teamData);
 
-  // returns the data object
-  findTeamMemberById(idImLookingFor) {
-    return this.teamMembers.find((member) => member.id === idImLookingFor);
-  }
+          break;
+        case "Intern":
+          createIntern(teamData);
 
-  createTeamMember(id) {
-    inquirer
-      .prompt({
-        type: "list",
-        name: "otherTypes",
-        message: "What is their role?",
-        choices: ["Engineer", "Employee", "Intern"],
-      })
-      .then(({ otherTypes }) => {
-        console.log(this.teamMembers);
-        switch (otherTypes) {
-          case "Engineer":
-            this.createEngineer(id);
-            return;
-          case "Employee":
-            this.createEmployee(id);
-            return;
-          case "Intern":
-            this.createIntern(id);
-            return;
+          break;
 
-          default:
-            // error
-            return;
-        }
-      });
-  }
+        default:
+          generatePage(teamData);
+          return;
+      }
+    });
+}
 
-  createEngineer(id) {
-    inquirer
-      .prompt({
+function createEngineer(teamData) {
+  inquirer
+    .prompt([
+      {
         type: "text",
         name: "name",
         message: "What is there name?",
-      })
-      .then(({ name }) => {
-        const newObj = {
-          // take the return value of this method and spread it into newDataObject
-          ...this.findTeamMemberById(id),
-          // mutate new object by adding name value
-          name,
-        };
-        // replace old value on this.teamMembers with the new object
-        this.teamMembers[this.findTeamMemberIndex(id)] = newObj;
-        console.log(this.teamMembers);
-      });
-  }
-
-  createIntern() {
-    inquirer.prompt({
-      type: "text",
-      name: "name",
-      message: "What's their name?",
+      },
+      {
+        type: "text",
+        name: "email",
+        message: "What is the Engineer's email?",
+      },
+      {
+        type: "text",
+        name: "id",
+        message: "What is their id?",
+      },
+      {
+        type: "text",
+        name: "gitHub",
+        message: "What is there Engineer's GitHub?",
+      },
+    ])
+    .then(({ name, id, email, gitHub }) => {
+      const newEngineer = new Engineer(name, id, email, gitHub);
+      teamData.engineer.push(newEngineer);
+      createTeamMember(teamData);
     });
-  }
-  createEmployee() {
-    inquirer.prompt({
-      type: "text",
-      name: "name",
-      message: "What's their name?",
-    });
-  }
 }
 
-const app = new CliClass();
+function createIntern(teamData) {
+  inquirer
+    .prompt([
+      {
+        type: "text",
+        name: "name",
+        message: "What is there name?",
+      },
+      {
+        type: "text",
+        name: "email",
+        message: "What is the Intern's email?",
+      },
+      {
+        type: "text",
+        name: "id",
+        message: "What is their id?",
+      },
+      {
+        type: "text",
+        name: "school",
+        message: "What is there Intern's school?",
+      },
+    ])
+    .then(({ name, id, email, school }) => {
+      const newIntern = new Intern(name, id, email, school);
+      teamData.intern.push(newIntern);
+      createTeamMember(teamData);
+    });
+}
+function generatePage(teamData) {
+  console.log(teamData);
+  console.log(teamData.manager[0].getName());
+}
 
-app.createManager();
+createManager();
 
 //one function to ask everything
 //last question is to ask your title
