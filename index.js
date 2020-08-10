@@ -136,10 +136,7 @@ function createIntern(teamData) {
       createTeamMember(teamData);
     });
 }
-function generatePage(teamData) {
-  console.log(teamData);
-  console.log(teamData.manager[0].getName());
-}
+function generatePage(teamData) {}
 
 createManager();
 
