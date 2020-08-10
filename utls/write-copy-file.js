@@ -24,3 +24,4 @@ function copyFile() {
     });
   });
 }
+module.exports = { writeFile, copyFile };
