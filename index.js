@@ -5,6 +5,9 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+const generatePage = require("./src/page-template");
+const { writeFile } = require("./utls/write-copy-file");
+
 // command line interface class....aka entry point
 
 function createManager() {
@@ -69,7 +72,11 @@ function createTeamMember(teamData) {
           break;
 
         default:
-          generatePage(teamData);
+          let pageHtml = generatePage(teamData);
+          writeFile(pageHtml).then((data) => {
+            console.log(data);
+          });
+
           return;
       }
     });
@@ -136,7 +143,6 @@ function createIntern(teamData) {
       createTeamMember(teamData);
     });
 }
-function generatePage(teamData) {}
 
 createManager();
 
