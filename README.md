@@ -22,7 +22,7 @@
   <br />
   
   ## Video
-  [![video of site]({https://youtu.be/4GVI-psdpZw}) "video")
+  [![](http://img.youtube.com/vi/4GVI-psdpZw/0.jpg)](http://www.youtube.com/watch?v=4GVI-psdpZw "")
   ## License
   MIT
   <br />
