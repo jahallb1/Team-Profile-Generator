@@ -1,12 +1,14 @@
 # Team Profile Generator
    
   ## Table of Contents
-    * [Description](#description)
-    * [Installation](#installation)
-    * [Usage](#usage)
-    * [contribution](#contribution)
-    * [License](#license)
-    * [Questions](#questions)
+  
+   * [Description](#description)
+   * [Installation](#installation)
+   * [Usage](#usage)
+   * [Contribution](#contribution)
+   * [License](#license)
+   * [Video](#video)
+   * [Questions](#questions)
     
   ## Description
   AS A manager
